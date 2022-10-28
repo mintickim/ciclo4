@@ -1,12 +1,17 @@
+
 from flask import Flask
 from flask import jsonify
 from flask import request
 from flask_cors import CORS
 import json
 from waitress import serve
+from Controladores.ControladorCandidato import ControladorCandidato
+from Controladores.ControladorPartido import ControladorPartido
 
 app=Flask(__name__)
 cors = CORS(app)
+miControladorCandidato=ControladorCandidato()
+miControladorPartido=ControladorPartido()
 
 @app.route("/",methods=['GET'])
 def test():
@@ -18,6 +23,56 @@ def loadFileConfig():
     with open('config.json') as f:
         data = json.load(f)
     return data
+####
+@app.route("/partidos",methods=['GET'])
+def getDepartamentos():
+    json=miControladorPartido.index()
+    return jsonify(json)
+@app.route("/partidos/<string:id>",methods=['GET'])
+def getDepartamento(id):
+    json=miControladorPartido.show(id)
+    return jsonify(json)
+@app.route("/partidos",methods=['POST'])
+def crearDepartamento():
+    data = request.get_json()
+    json=miControladorPartido.create(data)
+    return jsonify(json)
+@app.route("/partidos/<string:id>",methods=['PUT'])
+def modificarDepartamento(id):
+    data = request.get_json()
+    json=miControladorPartido.update(id,data)
+    return jsonify(json)
+@app.route("/partidos/<string:id>",methods=['DELETE'])
+def eliminarDepartamento(id):
+    json=miControladorPartido.delete(id)
+    return jsonify(json)
+######
+@app.route("/candidatos",methods=['GET'])
+def getMaterias():
+    json=miControladorCandidato.index()
+    return jsonify(json)
+@app.route("/candidatos/<string:id>",methods=['GET'])
+def getMateria(id):
+    json=miControladorCandidato.show(id)
+    return jsonify(json)
+@app.route("/candidatos",methods=['POST'])
+def crearMateria():
+    data = request.get_json()
+    json=miControladorCandidato.create(data)
+    return jsonify(json)
+@app.route("/candidatos/<string:id>",methods=['PUT'])
+def modificarMateria(id):
+    data = request.get_json()
+    json=miControladorCandidato.update(id,data)
+    return jsonify(json)
+@app.route("/candidatos/<string:id>",methods=['DELETE'])
+def eliminarMateria(id):
+    json=miControladorCandidato.delete(id)
+    return jsonify(json)
+@app.route("/candidatos/<string:id>/partidos/<string:id_departamento>",methods=['PUT'])
+def asignarPartidooACandidato(id,id_partido):
+    json=miControladorCandidato.asignarPartido(id,id_partido)
+    return jsonify(json)
 
 if __name__=='__main__':
     dataConfig = loadFileConfig()
