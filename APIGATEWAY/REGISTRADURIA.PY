@@ -17,7 +17,7 @@ from flask_jwt_extended import JWTManager
 app.config["JWT_SECRET_KEY"]="super-secret" #Cambiar por el que se conveniente
 jwt = JWTManager(app)
 
-##########################   MESAS  #########################################
+#  MESAS #
 @app.route("/mesas",methods=['GET'])
 def getMesas():
     headers = {"Content-Type": "application/json; charset=utf-8"}
@@ -56,7 +56,7 @@ def eliminarMesa(id):
     response = requests.delete(url, headers=headers)
     json = response.json()
     return jsonify(json)
-##################### PARTIDO   #############################
+# PARTIDO   #
 @app.route("/partidos",methods=['GET'])
 def getPartidos():
     headers = {"Content-Type": "application/json; charset=utf-8"}
@@ -94,7 +94,7 @@ def eliminarPartido(id):
     response = requests.delete(url, headers=headers)
     json = response.json()
     return jsonify(json)
-############################   CANDIDATOS #################################
+#   CANDIDATOS #
 @app.route("/candidatos",methods=['GET'])
 def getCandidatos():
     headers = {"Content-Type": "application/json; charset=utf-8"}
@@ -134,7 +134,7 @@ def eliminarCandidato(id):
     return jsonify(json)
 
 
-##########################  RESULTADOS  ############################
+#  RESULTADOS  #
 @app.route("/resultados",methods=['GET'])
 def getResultados():
     headers = {"Content-Type": "application/json; charset=utf-8"}
@@ -175,7 +175,6 @@ def eliminarResultado(id):
 
 
 
-###############################################################################
 @app.route("/",methods=['GET'])
 def test():
     json = {}
